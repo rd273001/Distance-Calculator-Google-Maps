@@ -51,11 +51,11 @@ const Home = () => {
     <LoadScript googleMapsApiKey={ process.env.GOOGLE_MAPS_API_KEY } libraries={ ['places'] }>
       <div className='flex flex-col flex-grow bg-[#F4F8FA] sm:px-8 pb-5'>
         <div className='font-sans sm:block hidden text-center text-[#1B31A8] text-xl my-4'><p>Let's calculate<span className='font-semibold'> distance </span>from Google maps</p></div>
-        <div className='sm:px-0 px-4 sm:py-4 md:flex md:flex-row gap-x-16 flex flex-col-reverse md:justify-evenly'>
-          <div className='flex md:flex-col gap-x-6'>
-            <div className='md:flex md:justify-between gap-x-6'>
+        <div className='md:px-4 px-0 sm:py-4 md:flex md:flex-row lg:gap-x-16 gap-x-8 flex flex-col-reverse md:justify-evenly'>
+          <div className='flex flex-col gap-y-6 lg:w-2/5 md:w-1/2 w-full px-4'>
+            <div className='md:flex-row flex flex-col md:justify-between gap-x-6 md:flex-grow-0 flex-grow'>
               {/* Inputs */ }
-              <div className='md:w-1/2'>
+              <div className='lg:w-2/3 w-full'>
                 <LocationInput
                   label='Origin'
                   value={ origin }
@@ -86,7 +86,7 @@ const Home = () => {
 
               <div className='flex items-center justify-center'>
                 <button
-                  className='rounded-full bg-[#1B31A8] text-white font-semibold text-xl px-8 py-3.5'
+                  className='rounded-full bg-[#1B31A8] text-white font-semibold text-xl px-8 md:py-3.5 py-2'
                   onClick={ handleCalculate }
                 >
                   Calculate
@@ -104,7 +104,7 @@ const Home = () => {
           </div>
 
           {/* Map */ }
-          <div className='md:w-1/2'>
+          <div className='lg:w-2/5 md:w-1/2 w-full mb-5'>
             <Map
               directionsResponse={ directionsResponse }
               origin={ origin }
