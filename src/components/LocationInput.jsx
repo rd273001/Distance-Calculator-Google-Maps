@@ -8,7 +8,7 @@ import stopIcon from '../assets/stop.svg';
 import addIcon from '../assets/add.svg';
 import deleteIcon from '../assets/delete.svg';
 
-const LocationInput = ( { label, value, onChange, icon, stops=[], onRemoveStop, onAddStop } ) => {
+const LocationInput = ( { label, value, onChange, icon, stops = [], onRemoveStop, onAddStop } ) => {
   const {
     ready,
     value: inputValue,
@@ -51,7 +51,7 @@ const LocationInput = ( { label, value, onChange, icon, stops=[], onRemoveStop, 
   };
 
   return (
-    <div className='mb-5'>
+    <div className='flex flex-col mb-5'>
       <label className='block text-sm font-medium text-gray-700 mb-1'>
         { label }
       </label>
@@ -93,13 +93,15 @@ const LocationInput = ( { label, value, onChange, icon, stops=[], onRemoveStop, 
         </div>
       ) }
       { onAddStop && (
-        <button
-          onClick={ onAddStop }
-          className='mt-2 flex items-center'
-        >
-          <img src={ addIcon } alt='Add Stop' className='size-4' />
-          <p className='ml-2'>Add another stop</p>
-        </button>
+        <div className='mt-1 flex items-center justify-end'>
+          <button
+            onClick={ onAddStop }
+            className='flex items-center'
+          >
+            <img src={ addIcon } alt='Add Stop' className='size-4' />
+            <p className='ml-1'>Add another stop</p>
+          </button>
+        </div>
       ) }
 
     </div>
