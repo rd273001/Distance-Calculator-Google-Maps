@@ -7,7 +7,7 @@ import originIcon from '../assets/origin.svg';
 import stopIcon from '../assets/stop.svg';
 import deleteIcon from '../assets/delete.svg';
 
-const LocationInput = ( { label, value, onChange, icon, onRemove } ) => {
+const LocationInput = ( { label, value, onChange, icon, onRemove, stops, onAddStop } ) => {
   const {
     ready,
     value: inputValue,
@@ -50,7 +50,7 @@ const LocationInput = ( { label, value, onChange, icon, onRemove } ) => {
   };
 
   return (
-    <div className='mb-4'>
+    <div className='mb-5'>
       <label className='block text-sm font-medium text-gray-700 mb-1'>
         { label }
       </label>
@@ -64,7 +64,7 @@ const LocationInput = ( { label, value, onChange, icon, onRemove } ) => {
               value={ inputValue }
               onChange={ handleInput }
               disabled={ !ready }
-              className='w-full px-10 py-2 border border-[#DCDDEC] bg-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
+              className='w-full px-10 py-2.5 border border-[#DCDDEC] text-[#1E2A32] font-semibold bg-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
               placeholder='Enter location'
             />
             { onRemove && (

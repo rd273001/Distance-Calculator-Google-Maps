@@ -51,45 +51,47 @@ const Home = () => {
     <LoadScript googleMapsApiKey={ process.env.GOOGLE_MAPS_API_KEY } libraries={ ['places'] }>
       <div className='flex flex-col flex-grow bg-[#F4F8FA] sm:px-8 pb-5'>
         <div className='font-sans sm:block hidden text-center text-[#1B31A8] text-xl my-4'><p>Let's calculate<span className='font-semibold'> distance </span>from Google maps</p></div>
-        <div className='sm:px-0 px-4 sm:py-4 md:flex md:flex-row gap-x-16 flex flex-col-reverse'>
-          {/* Inputs */ }
-          <div className='md:w-1/2 md:flex md:justify-around gap-x-6'>
-            <div>
-              <LocationInput
-                label='Origin'
-                value={ origin }
-                onChange={ setOrigin }
-                icon='origin'
-              />
+        <div className='sm:px-0 px-4 sm:py-4 md:flex md:flex-row gap-x-16 flex flex-col-reverse md:justify-evenly'>
+          <div className='flex md:flex-col gap-x-6'>
+            <div className='md:flex md:justify-between gap-x-6'>
+              {/* Inputs */ }
+              <div className='md:w-1/2'>
+                <LocationInput
+                  label='Origin'
+                  value={ origin }
+                  onChange={ setOrigin }
+                  icon='origin'
+                />
 
-              <LocationInput
-                label='Stop'
-                icon='stop'
-                stops={ stops }
-                onRemoveStop={ handleRemoveStop }
-                onAddStop={ handleAddStop }
-                onChange={ ( value ) => {
-                  const newStops = [...stops];
-                  newStops[newStops.length - 1] = value;
-                  setStops( newStops );
-                } }
-              />
+                <LocationInput
+                  label='Stop'
+                  icon='stop'
+                  stops={ stops }
+                  onRemoveStop={ handleRemoveStop }
+                  onAddStop={ handleAddStop }
+                  onChange={ ( value ) => {
+                    const newStops = [...stops];
+                    newStops[newStops.length - 1] = value;
+                    setStops( newStops );
+                  } }
+                />
 
-              <LocationInput
-                label='Destination'
-                value={ destination }
-                onChange={ setDestination }
-                icon='destination'
-              />
-            </div>
+                <LocationInput
+                  label='Destination'
+                  value={ destination }
+                  onChange={ setDestination }
+                  icon='destination'
+                />
+              </div>
 
-            <div className='flex items-center justify-center'>
-              <button
-                className='rounded-full bg-[#1B31A8] text-white font-semibold text-xl px-8 py-3.5'
-                onClick={ handleCalculate }
-              >
-                Calculate
-              </button>
+              <div className='flex items-center justify-center'>
+                <button
+                  className='rounded-full bg-[#1B31A8] text-white font-semibold text-xl px-8 py-3.5'
+                  onClick={ handleCalculate }
+                >
+                  Calculate
+                </button>
+              </div>
             </div>
 
             { distance && (
@@ -99,7 +101,6 @@ const Home = () => {
                 destination={ destination }
               />
             ) }
-
           </div>
 
           {/* Map */ }
