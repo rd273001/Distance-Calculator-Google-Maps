@@ -5,9 +5,10 @@ import '@reach/combobox/styles.css';
 import destinationIcon from '../assets/destination.svg';
 import originIcon from '../assets/origin.svg';
 import stopIcon from '../assets/stop.svg';
+import addIcon from '../assets/add.svg';
 import deleteIcon from '../assets/delete.svg';
 
-const LocationInput = ( { label, value, onChange, icon, onRemove, stops, onAddStop } ) => {
+const LocationInput = ( { label, value, onChange, icon, stops=[], onRemoveStop, onAddStop } ) => {
   const {
     ready,
     value: inputValue,
@@ -43,7 +44,7 @@ const LocationInput = ( { label, value, onChange, icon, onRemove, stops, onAddSt
       case 'destination':
         return <img src={ destinationIcon } alt='Destination' className='size-4' />;
       case 'stop':
-        return <img src={ stopIcon } alt='Destination' className='size-4' />;
+        return <img src={ stopIcon } alt='Stop' className='size-4' />;
       default:
         return null;
     }
@@ -67,15 +68,6 @@ const LocationInput = ( { label, value, onChange, icon, onRemove, stops, onAddSt
               className='w-full px-10 py-2.5 border border-[#DCDDEC] text-[#1E2A32] font-semibold bg-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
               placeholder='Enter location'
             />
-            { onRemove && (
-              <button
-                onClick={ onRemove }
-                className='ml-2 px-2 py-1 bg-red-500 text-white rounded-md'
-                aria-label='Remove stop'
-              >
-                <img src={ deleteIcon } alt='Destination' className='size-4' />
-              </button>
-            ) }
           </div>
           <ComboboxPopover>
             <ComboboxList>
@@ -87,6 +79,29 @@ const LocationInput = ( { label, value, onChange, icon, onRemove, stops, onAddSt
           </ComboboxPopover>
         </Combobox>
       </div>
+
+      { stops.length > 0 && (
+        <div className='mt-2 flex flex-wrap gap-2'>
+          { stops.map( ( stop, index ) => (
+            <div key={ index } className='bg-gray-100 rounded-full px-3 py-1 flex items-center'>
+              <span className='text-sm mr-2'>{ stop }</span>
+              <button onClick={ () => onRemoveStop( index ) } className='text-red-500'>
+                <img src={ deleteIcon } alt='Remove Stop' className='size-4' />
+              </button>
+            </div>
+          ) ) }
+        </div>
+      ) }
+      { onAddStop && (
+        <button
+          onClick={ onAddStop }
+          className='mt-2 flex items-center'
+        >
+          <img src={ addIcon } alt='Add Stop' className='size-4' />
+          <p className='ml-2'>Add another stop</p>
+        </button>
+      ) }
+
     </div>
   );
 };

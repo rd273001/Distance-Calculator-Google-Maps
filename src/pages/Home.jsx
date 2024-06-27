@@ -47,6 +47,12 @@ const Home = () => {
     setStops( newStops );
   }, [stops] );
 
+  const handleStopChange = useCallback( ( value, index ) => {
+    const newStops = [...stops];
+    newStops[index] = value;
+    setStops( newStops );
+  }, [stops] );
+
   return (
     <LoadScript googleMapsApiKey={ process.env.GOOGLE_MAPS_API_KEY } libraries={ ['places'] }>
       <div className='flex flex-col flex-grow bg-[#F4F8FA] sm:px-8 pb-5'>
@@ -69,11 +75,7 @@ const Home = () => {
                   stops={ stops }
                   onRemoveStop={ handleRemoveStop }
                   onAddStop={ handleAddStop }
-                  onChange={ ( value ) => {
-                    const newStops = [...stops];
-                    newStops[newStops.length - 1] = value;
-                    setStops( newStops );
-                  } }
+                  onChange={ ( value, index ) => handleStopChange( value, index ) }
                 />
 
                 <LocationInput
