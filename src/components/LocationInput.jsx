@@ -80,22 +80,13 @@ const LocationInput = ( { label, value, onChange, icon, stops = [], onRemoveStop
         </Combobox>
       </div>
 
-      { stops.length > 0 && (
-        <div className='mt-2 flex flex-wrap gap-2'>
-          { stops.map( ( stop, index ) => (
-            <div key={ index } className='bg-gray-100 rounded-full px-3 py-1 flex items-center'>
-              <span className='text-sm mr-2'>{ stop }</span>
-              <button onClick={ () => onRemoveStop( index ) } className='text-red-500'>
-                <img src={ deleteIcon } alt='Remove Stop' className='size-4' />
-              </button>
-            </div>
-          ) ) }
-        </div>
-      ) }
-      { onAddStop && (
+      { label === 'Stop' && (
         <div className='mt-1 flex items-center justify-end'>
           <button
-            onClick={ onAddStop }
+            onClick={ () => {
+              onAddStop( value );
+              setValue( '', false );
+            } }
             className='flex items-center'
           >
             <img src={ addIcon } alt='Add Stop' className='size-4' />
@@ -104,8 +95,21 @@ const LocationInput = ( { label, value, onChange, icon, stops = [], onRemoveStop
         </div>
       ) }
 
+      { stops.length > 0 && (
+        <div className='mt-2 flex flex-wrap gap-3'>
+          { stops.map( ( stop, index ) => (
+            <div key={ index } className='border border-[#DCDDEC] rounded-full px-2 py-1 flex items-center'>
+              <span className='text-sm mr-2'>{ stop }</span>
+              <button onClick={ () => onRemoveStop( index ) } className='text-red-500'>
+                <img src={ deleteIcon } alt='Remove Stop' className='size-4' />
+              </button>
+            </div>
+          ) ) }
+        </div>
+      ) }
+
     </div>
   );
 };
 
-export default LocationInput;
+export default React.memo( LocationInput );

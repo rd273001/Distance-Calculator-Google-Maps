@@ -1,18 +1,29 @@
 import React, { useCallback, useState } from 'react';
 import Map from '../components/Map';
-import { LoadScript } from '@react-google-maps/api';
+import { LoadScript, useJsApiLoader } from '@react-google-maps/api';
 import LocationInput from '../components/LocationInput';
 import addIcon from '../assets/add.svg';
 import DistanceCard from '../components/DistanceCard';
+import LoadingIndicator from '../components/LoadingIndicator';
 
 const Home = () => {
   const [origin, setOrigin] = useState( '' );
   const [destination, setDestination] = useState( '' );
+  const [stop, setStop] = useState( '' );
   const [stops, setStops] = useState( [] );
   const [distance, setDistance] = useState( null );
   const [directionsResponse, setDirectionsResponse] = useState( null );
+  const [isLoading, setIsLoading] = useState( false );
+
+  const { isLoaded } = useJsApiLoader( {
+    id: 'google-map-script',
+    googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY,
+  } );
 
   const handleCalculate = useCallback( () => {
+    if ( !origin || !destination )
+      return;
+    setIsLoading( true );
     const directionsService = new google.maps.DirectionsService();
     const waypoints = stops.map( stop => ( { location: stop } ) );
 
@@ -31,15 +42,20 @@ const Home = () => {
             0
           );
           setDistance( Math.round( totalDistance / 1000 ) ); // Convert meters to kilometers
+          setIsLoading( false );
         } else {
+          setIsLoading( false );
           console.error( `Directions request failed due to ${ status }` );
         }
       }
     );
   }, [origin, destination, stops] );
 
-  const handleAddStop = useCallback( () => {
-    setStops( [...stops, ''] );
+  const handleAddStop = useCallback( ( value ) => {
+    if ( !value )
+      return;
+    setStops( [...stops, value] );
+    console.log( 'Stops  ==>  ', [...stops, value] );
   }, [stops] );
 
   const handleRemoveStop = useCallback( ( index ) => {
@@ -47,18 +63,12 @@ const Home = () => {
     setStops( newStops );
   }, [stops] );
 
-  const handleStopChange = useCallback( ( value, index ) => {
-    const newStops = [...stops];
-    newStops[index] = value;
-    setStops( newStops );
-  }, [stops] );
-
   return (
-    <LoadScript googleMapsApiKey={ process.env.GOOGLE_MAPS_API_KEY } libraries={ ['places'] }>
-      <div className='flex flex-col flex-grow bg-[#F4F8FA] sm:px-8 pb-5'>
+    <LoadScript googleMapsApiKey={ process.env.GOOGLE_MAPS_API_KEY } libraries={ ['places'] } loadingElement={ <LoadingIndicator loadingText={ 'Loading Map...' } /> } >
+      <div className='flex flex-col flex-grow bg-[#F4F8FA] md:px-8 pb-5'>
         <div className='font-sans sm:block hidden text-center text-[#1B31A8] text-xl my-4'><p>Let's calculate<span className='font-semibold'> distance </span>from Google maps</p></div>
-        <div className='md:px-4 px-0 sm:py-4 md:flex md:flex-row lg:gap-x-16 gap-x-8 flex flex-col-reverse md:justify-evenly'>
-          <div className='flex flex-col gap-y-6 lg:w-2/5 md:w-1/2 w-full px-4'>
+        <div className='md:px-4 px-0 md:py-4 flex md:flex-row lg:gap-x-16 gap-x-8 flex-col-reverse md:justify-evenly'>
+          <div className='flex flex-col gap-y-6 lg:w-2/5 md:w-1/2 w-full md:px-0 px-4'>
             <div className='md:flex-row flex flex-col md:justify-between gap-x-6 md:flex-grow-0 flex-grow'>
               {/* Inputs */ }
               <div className='lg:w-2/3 w-full'>
@@ -72,11 +82,13 @@ const Home = () => {
                 <LocationInput
                   label='Stop'
                   icon='stop'
+                  value={ stop }
                   stops={ stops }
                   onRemoveStop={ handleRemoveStop }
                   onAddStop={ handleAddStop }
-                  onChange={ ( value, index ) => handleStopChange( value, index ) }
+                  onChange={ setStop }
                 />
+
 
                 <LocationInput
                   label='Destination'
@@ -106,16 +118,17 @@ const Home = () => {
           </div>
 
           {/* Map */ }
-          <div className='lg:w-2/5 md:w-1/2 w-full mb-5'>
-            <Map
+          <div className='lg:w-2/5 md:w-1/2 w-full md:mb-0 mb-5'>
+            { isLoaded ? <Map
               directionsResponse={ directionsResponse }
               origin={ origin }
               destination={ destination }
               stops={ stops }
-            />
+            /> : <LoadingIndicator loadingText={ 'Loading Map...' } /> }
           </div>
 
         </div>
+        { isLoading && <LoadingIndicator loadingText={ 'Calculating...' } /> }
       </div>
     </LoadScript>
   );

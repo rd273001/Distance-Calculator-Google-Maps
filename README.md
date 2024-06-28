@@ -28,13 +28,15 @@ Google Maps Distance Calculator is a web application that allows users to calcul
 
 ## Demo
 
-![Demo Screenshot](./screenshots/demo.png)
+![Live Website](https://distance-calculator-google-maps.netlify.app/)
 
 ## Technologies
 
 - React
-- Google Maps JavaScript API
-- Google Places API
+- Google Maps APIs
+  - Maps JavaScript API
+  - Places API
+  - Directions API
 - @react-google-maps/api
 - @reach/combobox
 
@@ -50,7 +52,13 @@ Google Maps Distance Calculator is a web application that allows users to calcul
 2. Install the dependencies:
 
     ```sh
-    npm install  OR  yarn
+    npm install
+    ```
+
+    OR
+
+    ```sh
+    yarn
     ```
 
 3. Create a `.env` file in the root directory and add your Google Maps API key:
@@ -62,7 +70,13 @@ Google Maps Distance Calculator is a web application that allows users to calcul
 4. Start the development server:
 
     ```sh
-    npm start  OR  yarn start
+    npm start
+    ```
+
+    OR
+
+    ```sh
+    yarn start
     ```
 
 ## Usage

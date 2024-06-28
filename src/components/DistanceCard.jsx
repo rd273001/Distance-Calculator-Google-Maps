@@ -9,7 +9,7 @@ const DistanceCard = ( { distance, origin, destination } ) => {
       </div>
       <div className='px-7 py-4 text-sm bg-[#F4F8FA]'>
         <p>
-          The distance between<span className='font-bold'>{ ` ${ origin } ` }</span>and<span className='font-bold'>{ ` ${ destination } ` }</span>via the selected route is<p className='font-bold'>{ ` ${ distance } kms.` }</p>
+          The distance between<span className='font-bold'>{ ` ${ origin } ` }</span>and<span className='font-bold'>{ ` ${ destination } ` }</span>via the selected route is<span className='font-bold'>{ ` ${ distance } kms.` }</span>
         </p>
       </div>
     </div>
