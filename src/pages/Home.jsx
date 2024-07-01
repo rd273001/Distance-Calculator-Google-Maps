@@ -7,9 +7,9 @@ import DistanceCard from '../components/DistanceCard';
 import LoadingIndicator from '../components/LoadingIndicator';
 
 const Home = () => {
-  const [origin, setOrigin] = useState( '' );
-  const [destination, setDestination] = useState( '' );
-  const [stop, setStop] = useState( '' );
+  const [origin, setOrigin] = useState( null );
+  const [destination, setDestination] = useState( null );
+  const [stop, setStop] = useState( null );
   const [stops, setStops] = useState( [] );
   const [distance, setDistance] = useState( null );
   const [directionsResponse, setDirectionsResponse] = useState( null );
@@ -25,13 +25,14 @@ const Home = () => {
       return;
     setIsLoading( true );
     const directionsService = new google.maps.DirectionsService();
-    const waypoints = stops.map( stop => ( { location: stop } ) );
+    const waypoints = stops.map( stop => ( { location: stop?.address } ) );
 
     directionsService.route(
       {
-        origin,
-        destination,
+        origin: origin?.address,
+        destination: destination?.address,
         waypoints,
+        provideRouteAlternatives: true,
         travelMode: google.maps.TravelMode.DRIVING,
       },
       ( result, status ) => {
@@ -49,14 +50,18 @@ const Home = () => {
         }
       }
     );
-  }, [origin, destination, stops] );
+  }, [origin?.address, destination?.address, stops.length] );
 
-  const handleAddStop = useCallback( ( value ) => {
-    if ( !value )
+  const handleAddStop = useCallback( () => {
+    if ( !stop )
       return;
-    setStops( [...stops, value] );
-    console.log( 'Stops  ==>  ', [...stops, value] );
-  }, [stops] );
+    if ( stops.find( stops => stops?.address === stop?.address ) ) {
+      alert( 'Stop already added!' );
+      return;
+    }
+    setStops( [...stops, stop] );
+    setStop( null );
+  }, [stops.length, stop?.address] );
 
   const handleRemoveStop = useCallback( ( index ) => {
     const newStops = stops.filter( ( _, i ) => i !== index );
@@ -74,7 +79,7 @@ const Home = () => {
               <div className='lg:w-2/3 w-full'>
                 <LocationInput
                   label='Origin'
-                  value={ origin }
+                  value={ origin?.address }
                   onChange={ setOrigin }
                   icon='origin'
                 />
@@ -82,7 +87,6 @@ const Home = () => {
                 <LocationInput
                   label='Stop'
                   icon='stop'
-                  value={ stop }
                   stops={ stops }
                   onRemoveStop={ handleRemoveStop }
                   onAddStop={ handleAddStop }
@@ -92,7 +96,7 @@ const Home = () => {
 
                 <LocationInput
                   label='Destination'
-                  value={ destination }
+                  value={ destination?.address }
                   onChange={ setDestination }
                   icon='destination'
                 />
@@ -111,8 +115,8 @@ const Home = () => {
             { distance && (
               <DistanceCard
                 distance={ distance }
-                origin={ origin }
-                destination={ destination }
+                origin={ origin?.address }
+                destination={ destination?.address }
               />
             ) }
           </div>

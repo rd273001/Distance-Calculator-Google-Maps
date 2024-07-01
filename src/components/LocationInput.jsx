@@ -8,7 +8,7 @@ import stopIcon from '../assets/stop.svg';
 import addIcon from '../assets/add.svg';
 import deleteIcon from '../assets/delete.svg';
 
-const LocationInput = ( { label, value, onChange, icon, stops = [], onRemoveStop, onAddStop } ) => {
+const LocationInput = ( { label, onChange, icon, stops = [], onRemoveStop, onAddStop } ) => {
   const {
     ready,
     value: inputValue,
@@ -31,7 +31,12 @@ const LocationInput = ( { label, value, onChange, icon, stops = [], onRemoveStop
     try {
       const results = await getGeocode( { address } );
       const { lat, lng } = await getLatLng( results[0] );
-      onChange( address );
+      // if ( label === 'Stop' ) {
+      //   onAddStop( { address, lat, lng } );
+      //   setValue( '', false );
+      //   return;
+      // }
+      onChange( { address, lat, lng } );
     } catch ( error ) {
       console.error( 'Error: ', error );
     }
@@ -84,8 +89,8 @@ const LocationInput = ( { label, value, onChange, icon, stops = [], onRemoveStop
         <div className='mt-1 flex items-center justify-end'>
           <button
             onClick={ () => {
-              onAddStop( value );
-              setValue( '', false );
+              setValue( '' );
+              onAddStop();
             } }
             className='flex items-center'
           >
@@ -99,7 +104,7 @@ const LocationInput = ( { label, value, onChange, icon, stops = [], onRemoveStop
         <div className='mt-2 flex flex-wrap gap-3'>
           { stops.map( ( stop, index ) => (
             <div key={ index } className='border border-[#DCDDEC] rounded-full px-2 py-1 flex items-center'>
-              <span className='text-sm mr-2'>{ stop }</span>
+              <span className='text-sm mr-2'>{ stop?.address }</span>
               <button onClick={ () => onRemoveStop( index ) } className='text-red-500'>
                 <img src={ deleteIcon } alt='Remove Stop' className='size-4' />
               </button>

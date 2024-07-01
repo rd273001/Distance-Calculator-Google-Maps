@@ -15,7 +15,7 @@
 
 ## Overview
 
-Google Maps Distance Calculator is a web application that allows users to calculate the distance between an origin and a destination with multiple stops in between. The app uses Google Maps API to display the route and calculate the distance.
+Google Maps Distance Calculator is a web application that allows users to calculate the distance between an origin and a destination with multiple stops in between. The app uses Google Maps APIs to display the route and calculate the distance.
 
 ## Features
 
