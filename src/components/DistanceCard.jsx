@@ -16,4 +16,4 @@ const DistanceCard = ( { distance, origin, destination } ) => {
   );
 };
 
-export default DistanceCard;
+export default React.memo( DistanceCard );

@@ -2,7 +2,6 @@ import React, { useCallback, useState } from 'react';
 import Map from '../components/Map';
 import { LoadScript, useJsApiLoader } from '@react-google-maps/api';
 import LocationInput from '../components/LocationInput';
-import addIcon from '../assets/add.svg';
 import DistanceCard from '../components/DistanceCard';
 import LoadingIndicator from '../components/LoadingIndicator';
 
@@ -14,6 +13,7 @@ const Home = () => {
   const [distance, setDistance] = useState( null );
   const [directionsResponse, setDirectionsResponse] = useState( null );
   const [isLoading, setIsLoading] = useState( false );
+  const [calculated, setCalculated] = useState( false ); // Track if calculation has been done
 
   const { isLoaded } = useJsApiLoader( {
     id: 'google-map-script',
@@ -44,6 +44,7 @@ const Home = () => {
           );
           setDistance( Math.round( totalDistance / 1000 ) ); // Convert meters to kilometers
           setIsLoading( false );
+          setCalculated( true ); // Set calculated to true after successful calculation
         } else {
           setIsLoading( false );
           console.error( `Directions request failed due to ${ status }` );
@@ -51,6 +52,16 @@ const Home = () => {
       }
     );
   }, [origin?.address, destination?.address, stops.length] );
+
+  const handleOriginChange = useCallback( ( newOrigin ) => {
+    setOrigin( newOrigin );
+    setCalculated( false ); // Reset calculated when origin changes
+  }, [] );
+
+  const handleDestinationChange = useCallback( ( newDestination ) => {
+    setDestination( newDestination );
+    setCalculated( false ); // Reset calculated when destination changes
+  }, [] );
 
   const handleAddStop = useCallback( () => {
     if ( !stop )
@@ -61,11 +72,13 @@ const Home = () => {
     }
     setStops( [...stops, stop] );
     setStop( null );
+    setCalculated( false ); // Reset calculated when adding a stop
   }, [stops.length, stop?.address] );
 
   const handleRemoveStop = useCallback( ( index ) => {
     const newStops = stops.filter( ( _, i ) => i !== index );
     setStops( newStops );
+    setCalculated( false ); // Reset calculated when removing a stop
   }, [stops] );
 
   return (
@@ -80,7 +93,7 @@ const Home = () => {
                 <LocationInput
                   label='Origin'
                   value={ origin?.address }
-                  onChange={ setOrigin }
+                  onChange={ handleOriginChange }
                   icon='origin'
                 />
 
@@ -97,7 +110,7 @@ const Home = () => {
                 <LocationInput
                   label='Destination'
                   value={ destination?.address }
-                  onChange={ setDestination }
+                  onChange={ handleDestinationChange }
                   icon='destination'
                 />
               </div>
@@ -112,7 +125,7 @@ const Home = () => {
               </div>
             </div>
 
-            { distance && (
+            { calculated && distance && (
               <DistanceCard
                 distance={ distance }
                 origin={ origin?.address }

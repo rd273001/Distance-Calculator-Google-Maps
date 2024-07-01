@@ -31,11 +31,6 @@ const LocationInput = ( { label, onChange, icon, stops = [], onRemoveStop, onAdd
     try {
       const results = await getGeocode( { address } );
       const { lat, lng } = await getLatLng( results[0] );
-      // if ( label === 'Stop' ) {
-      //   onAddStop( { address, lat, lng } );
-      //   setValue( '', false );
-      //   return;
-      // }
       onChange( { address, lat, lng } );
     } catch ( error ) {
       console.error( 'Error: ', error );
@@ -92,7 +87,7 @@ const LocationInput = ( { label, onChange, icon, stops = [], onRemoveStop, onAdd
               setValue( '' );
               onAddStop();
             } }
-            className='flex items-center'
+            className='flex items-center active:font-bold'
           >
             <img src={ addIcon } alt='Add Stop' className='size-4' />
             <p className='ml-1'>Add another stop</p>
