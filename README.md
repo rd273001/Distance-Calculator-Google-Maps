@@ -28,17 +28,19 @@ Google Maps Distance Calculator is a web application that allows users to calcul
 
 ## Demo
 
-![Live Website](https://distance-calculator-google-maps.netlify.app/)
+Live Website - [Google Maps Distance Calculator](https://distance-calculator-google-maps.netlify.app/)
 
 ## Technologies
 
-- React
+- React.js
 - Google Maps APIs
   - Maps JavaScript API
   - Places API
   - Directions API
 - @react-google-maps/api
 - @reach/combobox
+- Tailwind CSS
+- JavaScript
 
 ## Installation
 
