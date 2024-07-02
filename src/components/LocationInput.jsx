@@ -87,7 +87,7 @@ const LocationInput = ( { label, onChange, icon, stops = [], onRemoveStop, onAdd
               setValue( '' );
               onAddStop();
             } }
-            className='flex items-center active:font-bold'
+            className='flex items-center active:scale-105 hover:opacity-65'
           >
             <img src={ addIcon } alt='Add Stop' className='size-4' />
             <p className='ml-1'>Add another stop</p>

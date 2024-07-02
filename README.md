@@ -32,15 +32,16 @@ Live Website - [Google Maps Distance Calculator](https://distance-calculator-goo
 
 ## Technologies
 
-- React.js
+- [![React.js](https://img.shields.io/badge/React-20232A?logo=react&logoColor=61DAFB)](#)
 - Google Maps APIs
   - Maps JavaScript API
   - Places API
   - Directions API
 - @react-google-maps/api
 - @reach/combobox
-- Tailwind CSS
-- JavaScript
+- [![Google Cloud](https://img.shields.io/badge/Google_Cloud-4285F4?logo=google-cloud&logoColor=red)](#)
+- [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?logo=tailwind-css&logoColor=white)](#)
+- [![JavaScript](https://img.shields.io/badge/JavaScript-323330?logo=javascript&logoColor=F7DF1E)](#)
 
 ## Installation
 
